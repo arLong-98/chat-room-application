@@ -1,9 +1,12 @@
 # chat-room-application
 
-**A small application to make chat rooms using socket.io for real time text transfer.
-*Username for each chatroom has to be unique.
-*User can also send his current location in the chat room.
-*User can send private message by tagging user/users in the message, i.e @username 'some text message' will be recieved only by username.
+A small application to make chat rooms using socket.io for real time text transfer.
+
+## Using the app
+
+Usernames should be unique.
+Location message can also be sent to all the users in room.
+Private message to a particulat user can be sent by tagging the user as @username at the starting of message.
 
 
 

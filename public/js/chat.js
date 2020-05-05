@@ -40,7 +40,6 @@ const autoScroll = ()=>{
 }
 
 socket.on('message',(message)=>{
-    console.log(message);
     const html = Mustache.render(messageTemplate,{
         username:message.username,
         message: message.text,
@@ -61,6 +60,7 @@ socket.on('locationMessage',(locationText)=>{
     autoScroll();
 });
 
+
 socket.on('roomData',({room, users})=>{
     const html = Mustache.render(sidebarTemplate,{
         room,
@@ -76,17 +76,32 @@ $messageForm.addEventListener('submit',(e)=>{
     //disable form
 
     const message = e.target.elements.message.value ;
-    socket.emit('sendMessage',message, (error)=>{
-        //enable
-        $messageFormButton.removeAttribute('disabled');
-        $messageFormInput.value = '';
-        $messageFormInput.focus();
 
-        if(error)
-            return console.log(error);
+    if(message.charAt(0)==='@'){
+        socket.emit('sendTaggedMessage', message, (error)=>{
+            $messageFormButton.removeAttribute('disabled');
+            $messageFormInput.value = '';
+            $messageFormInput.focus();
+
+            if(error)
+                return console.log(error);
         
-        console.log('Message delivered')
-    });
+            console.log('Message delivered')
+        })
+    }
+    else
+    {    socket.emit('sendMessage',message, (error)=>{
+            //enable
+            $messageFormButton.removeAttribute('disabled');
+            $messageFormInput.value = '';
+            $messageFormInput.focus();
+
+            if(error)
+                return console.log(error);
+            
+            console.log('Message delivered')
+        });
+    }
 });
 
 $sendLocationButton.addEventListener('click',()=>{
@@ -96,6 +111,7 @@ $sendLocationButton.addEventListener('click',()=>{
     $sendLocationButton.setAttribute('disabled','disabled');
 
     navigator.geolocation.getCurrentPosition((position)=>{
+        
         socket.emit('sendLocation',{lat:position.coords.latitude, long:position.coords.longitude}, (error)=>{
 
             $sendLocationButton.removeAttribute('disabled');

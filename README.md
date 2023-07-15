@@ -10,5 +10,7 @@ Private message to a particulat user can be sent by tagging the user as @usernam
 
 
 
-deployed on heroku: 
-https://dhairya-chat-app.herokuapp.com/
+deployed on render: 
+https://dhairya-chat-room.onrender.com
+
+PS : render apps go to sleep after 15 minutes of inactivity, so load time might be a little longer than usual.
